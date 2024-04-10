@@ -2,16 +2,17 @@ package com.taf.base;
 
 import java.io.File;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.ThreadContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MyLogger {
 
-	private static Logger logger = LogManager.getLogger();
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(MyLogger.class);
 
 	public static Logger getCurrentLog() {
-		return logger;
+		
+		return LOGGER;
 	}
 
 	public static String getCallInfo() {
@@ -26,13 +27,7 @@ public class MyLogger {
 
 	}
 
-	public static void trace(Object message) {
-		getCurrentLog().trace(message);
-	}
 
-	public static void trace(Object message, Throwable t) {
-		getCurrentLog().trace(message, t);
-	}
 
 	public static void debug(Object message) {
 
@@ -43,34 +38,31 @@ public class MyLogger {
 		getCurrentLog().debug(getCallInfo() + message, t);
 	}
 
-	public static void error(Object message) {
+	public static void error(String message) {
 
-		getCurrentLog().error(getCallInfo() + message);
+		getCurrentLog().error(message);
 	}
 
 	public static void error(Object message, Throwable t) {
 		getCurrentLog().error(getCallInfo() + message, t);
 	}
 
-	public static void fatal(Object message) {
-		getCurrentLog().fatal(getCallInfo() + message);
-	}
 
-	public static void fatal(Object message, Throwable t) {
-		getCurrentLog().fatal(getCallInfo() + message, t);
-	}
 
 	public static void info(String message) {
 
 		getCurrentLog().info(message);
 	}
+	
+	public static void info(Object message , Throwable t) {
 
-	public static void info(Object message, Throwable t) {
-		getCurrentLog().info(message, t);
+		getCurrentLog().info(getCallInfo()+message, t);
 	}
 
-	public static void warn(Object message) {
-		getCurrentLog().warn(getCallInfo() + message);
+
+
+	public static void warn(String message) {
+		getCurrentLog().warn(message);
 	}
 
 	public static void warn(Object message, Throwable t) {

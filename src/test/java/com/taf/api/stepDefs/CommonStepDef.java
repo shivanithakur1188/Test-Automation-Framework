@@ -44,6 +44,7 @@ public class CommonStepDef {
 			String desc, String jsonBody, DataTable table) throws Throwable {
 		setProperty(Constants.REQUEST_JSON, Utility.updateRequestBody(table, Utility.readJson(jsonBody)));
 		response = Utility.buildRequest(methodType);
+		
 	}
 
 	@Then("^I should see the response status code as \"([^\"]*)\"$")
@@ -90,6 +91,7 @@ public class CommonStepDef {
 	public void i_should_sollowing_parameters_in_response_as() {
 		System.out.println("SYSOUt logs");
 		MyLogger.info("Logs printed successfully");
+		
 		}
 	
 	
