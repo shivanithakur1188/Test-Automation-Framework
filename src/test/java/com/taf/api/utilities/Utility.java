@@ -21,6 +21,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.rest.SerenityRest;
 import com.taf.base.Base;
+import com.taf.base.MyLogger;
 
 /**
  * The Class Utility.
@@ -150,6 +151,7 @@ public class Utility {
 			}
 
 		}
+		MyLogger.info("Request Body:\n"+jsonBody);
 		return jsonBody;
 	}
 
