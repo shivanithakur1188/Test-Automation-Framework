@@ -36,7 +36,7 @@ public class Utility {
 	public static String readJson(String jsonName) {
 		String jsonString = null;
 		try {
-			URL file = Resources.getResource("configFiles/jsonFiles/RequestJson/" + jsonName + ".json");
+			URL file = Resources.getResource("config/json/RequestJson/" + jsonName + ".json");
 			jsonString = Resources.toString(file, Charsets.UTF_8);
 
 		} catch (Exception e) {

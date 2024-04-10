@@ -15,11 +15,15 @@ import com.taf.api.utilities.PropertyHolder;
 import com.taf.api.utilities.Utility;
 
 
+
+
 public class Base {
 	public static Properties properties = new Properties();
+	public static Properties envProperties = new Properties();
 
 	static {
 		readPropertyFile();
+		readEnvPropertyFile();
 		init();
 	}
 
@@ -50,7 +54,26 @@ public class Base {
 				}
 			}
 		} catch (IOException e) {
-			org.junit.Assert.assertTrue("Error on reading queries config file", false);
+			org.junit.Assert.assertTrue("Error on reading config file"+e.getMessage(), false);
+		}
+	}
+	
+	public static void readEnvPropertyFile() {
+		try {
+			String environment = properties.getProperty("environment");
+			
+			FileInputStream stream = new FileInputStream(System.getProperty("user.dir")
+					+ "/src/test/resources/config/properties/environments/"+environment+".properties");
+			envProperties.load(stream);
+			if (properties.size() > 0) {
+				Set<Object> keys = envProperties.keySet();
+				for (Object object : keys) {
+					PropertyHolder.setProperty(object.toString(), envProperties.getProperty(object.toString()));
+					MyLogger.info(object.toString()+" : "+envProperties.getProperty(object.toString()));
+				}
+			}
+		} catch (IOException e) {
+			org.junit.Assert.assertTrue("Error on reading environment config file"+e.getMessage(), false);
 		}
 	}
 

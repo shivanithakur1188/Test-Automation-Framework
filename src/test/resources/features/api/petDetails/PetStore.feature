@@ -1,4 +1,4 @@
-@petStore
+@petStore @za
 Feature: Demo Pet Store
 
   @api
@@ -55,3 +55,4 @@ Feature: Demo Pet Store
     And I should see the following parameters in response as
       | parameter  | jsonpath | expectedValue |
       | pet status | message  | Pet not found |
+     Then I should verify printing of logs 
