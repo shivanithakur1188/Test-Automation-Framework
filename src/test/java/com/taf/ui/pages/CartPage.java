@@ -1,5 +1,7 @@
 package com.taf.ui.pages;
 
+import java.util.List;
+
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -16,7 +18,7 @@ public class CartPage extends PageObject {
 	}
 
 	@FindBy(xpath = "//a[text()='Delete']/../preceding-sibling::td[1]")
-	public WebElementFacade itemPrice;
+	public List<WebElementFacade> itemPrice;
 
 	@FindBy(id = "name")
 	public WebElementFacade formNameField;

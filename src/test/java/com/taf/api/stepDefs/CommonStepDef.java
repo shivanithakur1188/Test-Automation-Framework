@@ -11,7 +11,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import com.taf.base.Base;
-import com.taf.base.MyLogger;
 import com.taf.api.utilities.Constants;
 import com.taf.api.utilities.ResponseUtils;
 import com.taf.api.utilities.Utility;
@@ -22,7 +21,7 @@ public class CommonStepDef {
 	public void i_have_the_endpoint_as_something(String endpoint) throws Throwable {
 		setProperty(Constants.URL,
 				Utility.createEndPoint(Base.envProperties.get(Constants.API_BASE_URL).toString(), getProperty(endpoint)));
-		MyLogger.info("Created endpoint is:"+getProperty(Constants.URL));
+		Base.LOGGER.info("Created endpoint is:"+getProperty(Constants.URL));
 	}
 
 	@When("^I send the \"([^\"]*)\" request to \"([^\"]*)\"$")
@@ -90,7 +89,8 @@ public class CommonStepDef {
 	@Then("^I should verify printing of logs$")
 	public void i_should_sollowing_parameters_in_response_as() {
 		System.out.println("SYSOUt logs");
-		MyLogger.info("Logs printed successfully");
+		Base.LOGGER.info("Logs printed successfully");
+		
 		
 		}
 	
