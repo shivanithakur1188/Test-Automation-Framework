@@ -5,7 +5,7 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public class HomePage extends PageObject {
 
-	public WebElementFacade target(String arg) {
-		return findBy("//a[text()='" + arg + "']");
-	}
+    public WebElementFacade target(String arg) {
+        return findBy("//a[text()='" + arg + "']");
+    }
 }
