@@ -36,7 +36,7 @@ public class CreateArticlePage extends PageObject {
     @FindBy(xpath = "//label[text()='Hero Image']/..//button")
     public WebElementFacade selectHeroImageButton;
 
-    @FindBy(xpath = "//img[@alt='Image 4.png']/../preceding-sibling::div//input")
+    @FindBy(xpath = "//img[@alt]/../preceding-sibling::div//input")
     public WebElementFacade image;
 
     @FindBy(xpath = "//input[@aria-labelledby=':ree:-title']")

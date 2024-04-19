@@ -14,10 +14,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.annotations.Steps;
 
-import java.awt.AWTException;
 import java.util.List;
-
-import org.junit.Assert;
 
 public class ContentCreationPortalStepDef {
 
