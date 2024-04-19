@@ -27,13 +27,16 @@ public class CreateArticlePage extends PageObject {
     @FindBy(xpath = "//a[@class='sc-fvxzrP oyRxl active']")
     public WebElementFacade backButton;
 
-    @FindBy(xpath = "//button[@class='sc-bdvvtL sc-gsDKAQ sc-egiyK iAycJB kpZefO fipmiG sc-ksdxgE ibUdkY']")
+    @FindBy(xpath = "//span[text()='Publish']/..")
     public WebElementFacade publishEntryButton;
+    
+    @FindBy(xpath = "//span[text()='Unpublish']/..")
+    public WebElementFacade unpublishEntryButton;
 
-    @FindBy(xpath = "//button[@class='sc-bdvvtL sc-gsDKAQ DaXIO cESTgu']")
+    @FindBy(xpath = "//label[text()='Hero Image']/..//button")
     public WebElementFacade selectHeroImageButton;
 
-    @FindBy(xpath = "//img[@alt='Image 4.png']")
+    @FindBy(xpath = "//img[@alt='Image 4.png']/../preceding-sibling::div//input")
     public WebElementFacade image;
 
     @FindBy(xpath = "//input[@aria-labelledby=':ree:-title']")
@@ -42,4 +45,13 @@ public class CreateArticlePage extends PageObject {
     @FindBy(xpath = "//div[@class='sc-bdvvtL sc-eFegNN bOQZK dvfRGL']")
     public WebElementFacade imageCollection;
 
+    public WebElementFacade mandatoryFieldName(String field) {
+        return find("//*[text()='" + field + "']");
+    }
+    
+    @FindBy(xpath = "//*[text()='Choose here']")
+    public WebElementFacade location;
+    
+    @FindBy(xpath ="//span[text()='Finish']/..")
+    public WebElementFacade finishButton;
 }

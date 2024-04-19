@@ -1,9 +1,11 @@
 package com.taf.utility;
 
-import net.serenitybdd.core.pages.PageObject;
-
+import org.junit.Assert;
 
 public class Assertions {
-	
-}
 
+    public static void assertTrue(boolean conditon, String message) {
+        Assert.assertTrue(message, conditon);
+    }
+
+}
