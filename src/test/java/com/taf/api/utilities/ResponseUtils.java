@@ -1,7 +1,11 @@
 package com.taf.api.utilities;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+
+import java.net.URL;
 
 /**
  * The Class ResponseUtils.
@@ -38,4 +42,17 @@ public class ResponseUtils {
 		response.then().statusCode(expectedStatusCode);
 	}
 
+    public static String readResponseJsonSchema(String jsonSchema) {
+        try {
+            URL file = Resources
+                    .getResource("configFiles/jsonFiles/ResponseJsonSchema/"
+                            + jsonSchema + ".json");
+            String jsonString = Resources.toString(file, Charsets.UTF_8);
+            return jsonString;
+        } catch (Exception e) {
+
+            System.out.println("Error while altering json : " + e);
+            return null;
+        }
+    }
 }

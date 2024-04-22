@@ -3,6 +3,9 @@ package com.taf.api.stepDefs;
 import static com.taf.api.utilities.PropertyHolder.getProperty;
 import static com.taf.api.utilities.PropertyHolder.setProperty;
 import static com.taf.api.utilities.ResponseUtils.response;
+
+import com.taf.api.utilities.JsonPath;
+import io.cucumber.java.en.And;
 import org.junit.Assert;
 
 import io.cucumber.datatable.DataTable;
@@ -25,9 +28,9 @@ public class CommonStepDef {
 	}
 
 	@When("^I send the \"([^\"]*)\" request to \"([^\"]*)\"$")
-	public void i_send_the_something_request_to_something(String methodType, String desc, DataTable table)
+	public void i_send_the_something_request_to_something(String methodType, String desc)
 			throws Throwable {
-		response = Utility.buildRequest(table, methodType);
+		response = Utility.buildRequest(methodType);
 
 	}
 
@@ -93,6 +96,23 @@ public class CommonStepDef {
 		
 		
 		}
-	
-	
+
+	@Given("I have endpoint as {string}")
+	public void userSetTheRequestUrlAs(String endpoint) {
+//		System.out.println("@@@@@@@Request URL is following1 -->  " + endpoint.split("/")[0]);
+//		System.out.println("@@@@@@Request URL is following1 -->  " + endpoint.split("/")[1]);
+//		System.out.println("@@@@@@@Request URL is following2 -->  " + Base.envProperties.get(endpoint.split("/")[0]));
+//		System.out.println("@@@@@@@Request URL is following2 -->  " + getProperty(endpoint.split("/")[1]));
+
+		setProperty(Constants.URL,
+				Utility.createEndPoint(Base.envProperties.get(endpoint.split("/")[0]).toString(), getProperty(endpoint.split("/")[1])));
+		Base.LOGGER.info("Created endpoint is:"+getProperty(Constants.URL));
+	}
+
+	@And("Get the ID from the response")
+	public void getTheFromTheResponse() {
+
+		Base.LOGGER.info("Newly created Article ID is: "+ResponseUtils.getDataFromResponseUsingJsonPath(JsonPath.JSON_PATH_ARTICLE_ID));
+
+	}
 }
