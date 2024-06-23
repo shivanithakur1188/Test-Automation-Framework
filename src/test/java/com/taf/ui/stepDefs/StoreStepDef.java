@@ -3,10 +3,16 @@ package com.taf.ui.stepDefs;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import net.serenitybdd.annotations.Managed;
 import net.serenitybdd.annotations.Steps;
+import net.serenitybdd.model.environment.EnvironmentSpecificConfiguration;
+import net.thucydides.model.util.EnvironmentVariables;
 
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.taf.api.utilities.PropertyHolder;
 import com.taf.base.Base;
 import com.taf.ui.pages.CartPage;
 import com.taf.ui.pages.HomePage;
@@ -17,16 +23,37 @@ public class StoreStepDef {
     HomePage homepage;
     CartPage cartpage;
     ProductPage productPage;
-
+    @Managed
+    WebDriver driver;
     @Steps
     SerenityActions actions;
-
+    EnvironmentVariables environmentVariables;
+    String url;
+    
+    public EnvironmentVariables env;
+    
     public static int expectedPrices;
 
     @Given("the {string} is on homepage")
     public void the_is_on_homepage(String string) {
         Base.LOGGER.info("test started");
-        homepage.open();
+
+      // String  Selectedenvironment= environmentVariables.getProperty("serenity.environment");
+        
+       // Base.LOGGER.info("selectedenvironment**************** "+Selectedenvironment);
+  
+        
+        //String uiul=   environmentVariables.getProperty("environments."+Selectedenvironment+".webdriver.base.url");
+        
+        //Base.LOGGER.info("Conf file URL::::::::::"+uiul);
+        
+        
+        url = PropertyHolder.getProperty("uiBaseUrl");
+        
+        Base.LOGGER.info("URL to launch is: "+url);
+        
+        driver.get(url);
+      
     }
 
     @When("user navigates to category {string}")
@@ -46,7 +73,8 @@ public class StoreStepDef {
         actions.click(homepage.target(string));
         actions.click(productPage.addToCart);
         productPage.acceptAlert();
-        homepage.open();
+        driver.get(url);
+ 
     }
 
     @When("user navigates to cart page")
@@ -73,8 +101,9 @@ public class StoreStepDef {
     }
 
     @When("user fills the web form")
-    public void user_fills_the_web_form() {
+    public void user_fills_the_web_form() throws InterruptedException {
         actions.waitUntilVisible(cartpage.placeOrderForm);
+        
 
         actions.type("Globallogic", cartpage.formNameField);
         actions.type("India", cartpage.formCountryField);
@@ -99,7 +128,9 @@ public class StoreStepDef {
         String orderDetails = cartpage.orderDetails.getText();
         String orderPrice = orderDetails.substring(orderDetails.indexOf("Amount"), orderDetails.indexOf("USD"))
             .replaceAll("[^\\d]", "");
+        Base.LOGGER.info("expected Price is:"+expectedPrices + ", and Actual Price is: "+ orderPrice);
         Assert.assertTrue("Price not matching", expectedPrices == Integer.parseInt(orderPrice));
+        
         actions.click(cartpage.okButton);
     }
 
