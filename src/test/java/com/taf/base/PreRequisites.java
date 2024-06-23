@@ -11,6 +11,7 @@ public class PreRequisites {
 
     public static void main(String[] args) {
         setupJunitAndCucumberPropertiesForParallelExecution();
+        setupSerenityProperties();
     }
 
     private static void setupJunitAndCucumberPropertiesForParallelExecution() {
@@ -74,5 +75,54 @@ public class PreRequisites {
             e.printStackTrace();
         }
 
+    }
+
+    private static void setupSerenityProperties() {
+        try {
+            //load common property to get local property value
+            Properties serenityProperties = new Properties();
+            serenityProperties.load(
+                new FileReader(System.getProperty("user.dir") + "/src/test/resources/serenityCommon.properties"));
+
+
+            // setting environment properties
+            serenityProperties.put("environment", Library.getEnvProperty("environment") == null ? "qa"
+                : Library.getEnvProperty("environment"));
+
+            // setting driver properties
+            serenityProperties.put("webdriver.driver", Library.getEnvProperty("driver") == null ? "chrome"
+                : Library.getEnvProperty("driver"));
+
+            // setting report properties
+            serenityProperties.put("report.customfields.environment", System.getenv("environment") == null ? "QA"
+                : System.getenv("environment").toUpperCase());
+            serenityProperties.put("report.customfields.tags", System.getenv("tags") == null ? "@all"
+                : System.getenv("tags"));
+            serenityProperties.put("report.customfields.browser",
+                System.getenv("browser") == null ? System.getProperty("browser") == null ? "CHROME"
+                    : System.getProperty("browser").toUpperCase()
+                    : System.getenv("browser").toUpperCase()
+            );
+            serenityProperties.put("serenity.report.url", System.getProperty("user.dir") + "/target/site/serenity");
+
+            // setting headless based on variables from cmd/jenkins
+            if (Library.getEnvProperty("headless") != null) {
+                if (Library.getEnvProperty("headless").equals("true")) {
+                    serenityProperties.put(
+                        serenityProperties.get("webdriver.driver").toString().toLowerCase() + ".switches",
+                        "--headless=new;" + serenityProperties.get(
+                            serenityProperties.get("webdriver.driver").toString().toLowerCase() + ".switches"));
+                }
+            }
+
+            serenityProperties.store(new FileWriter(System.getProperty("user.dir") + "/serenity.properties"),
+                "Property File created from: \n/src/test/resources/serenityCommon.properties\n"
+                    + "\n\n");
+            Base.LOGGER.info("serenity.properties file loaded successfully.");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,6 +1,7 @@
-@petStore  @api
+@petStore
 Feature: Demo Pet Store
 
+  @api
   Scenario: Get available pets
     Given I have the endpoint as "PETS_BY_STATUS"
     When I send the "get" request to "check available pets"

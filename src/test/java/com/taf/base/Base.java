@@ -15,67 +15,65 @@ import com.taf.api.utilities.Constants;
 import com.taf.api.utilities.JsonPath;
 import com.taf.api.utilities.PropertyHolder;
 import com.taf.api.utilities.Utility;
+import com.taf.utility.Library;
 
 public class Base {
-	public static final Logger LOGGER = LoggerFactory.getLogger(Base.class);
-	public static Properties properties = new Properties();
-	public static Properties envProperties = new Properties();
+    public static final Logger LOGGER = LoggerFactory.getLogger(Base.class);
+    public static Properties envProperties = new Properties();
 
-	static {
 
-		readPropertyFile();
-		readEnvPropertyFile();
-		init();
-	}
+    static {
+        init();
+        readPropertyFiles();
+        readEnvPropertyFile();
+    }
 
-	/**
-	 * Initialize config.property available under resource folder
-	 * 
-	 */
-	public static void init() {
-		try {
-			Utility.putVariablesInMap(APIEndPoints.class);
-			Utility.putVariablesInMap(JsonPath.class);
-			Utility.putVariablesInMap(Constants.class);
-			LOGGER.info("Constants loaded in Properties map");
-		} catch (Exception e) {
-			Assert.assertTrue("Error while reading properties file: " + e.getMessage(), false);
-		}
-	}
+    /**
+     * Initialize config.property available under resource folder
+     */
+    public static void init() {
+        try {
+            Utility.putVariablesInMap(APIEndPoints.class);
+            Utility.putVariablesInMap(JsonPath.class);
+            Utility.putVariablesInMap(Constants.class);
+        } catch (Exception e) {
+            Assert.assertTrue("Error while reading properties file: " + e.getMessage(), false);
+        }
+    }
 
-	public static void readPropertyFile() {
-		try {
-			FileInputStream stream = new FileInputStream(
-					System.getProperty("user.dir") + "/src/test/resources/config/apiProperties/config.properties");
-			properties.load(stream);
-			if (properties.size() > 0) {
-				Set<Object> keys = properties.keySet();
-				for (Object object : keys) {
-					PropertyHolder.setProperty(object.toString(), properties.getProperty(object.toString()));
-				}
-			}
-		} catch (IOException e) {
-			Assert.assertTrue("Error on reading config file" + e.getMessage(), false);
-		}
-	}
+    public static void readPropertyFiles() {
+        try {
+            Properties commonProps = new Properties();
+            commonProps.load(new FileInputStream(
+                System.getProperty("user.dir") + "/src/test/resources/config/properties/common.properties"));
 
-	public static void readEnvPropertyFile() {
-		try {
-			String environment = properties.getProperty("environment");
+            Properties apiProps = new Properties();
+            commonProps.load(new FileInputStream(
+                System.getProperty("user.dir") + "/src/test/resources/config/properties/api/api.properties"));
 
-			FileInputStream stream = new FileInputStream(System.getProperty("user.dir")
-					+ "/src/test/resources/config/apiProperties/environments/" + environment + ".properties");
-			envProperties.load(stream);
-			if (properties.size() > 0) {
-				Set<Object> keys = envProperties.keySet();
-				for (Object object : keys) {
-					PropertyHolder.setProperty(object.toString(), envProperties.getProperty(object.toString()));
-					LOGGER.info(object.toString() + " : " + envProperties.getProperty(object.toString()));
-				}
-			}
-		} catch (IOException e) {
-			org.junit.Assert.assertTrue("Error on reading environment config file" + e.getMessage(), false);
-		}
-	}
+            Properties uiProps = new Properties();
+            commonProps.load(new FileInputStream(
+                System.getProperty("user.dir") + "/src/test/resources/config/properties/ui/ui.properties"));
+
+            Library.loadPropertiesInPropertyHolder(commonProps);
+            Library.loadPropertiesInPropertyHolder(apiProps);
+            Library.loadPropertiesInPropertyHolder(uiProps);
+        } catch (IOException e) {
+            Assert.assertTrue("Error on reading config file" + e.getMessage(), false);
+        }
+    }
+
+    public static void readEnvPropertyFile() {
+        try {
+            String environment =
+                Library.getEnvProperty("environment") == null ? "qa" : Library.getEnvProperty("environment");
+            FileInputStream stream = new FileInputStream(System.getProperty("user.dir")
+                + "/src/test/resources/config/environments/" + environment + ".properties");
+            envProperties.load(stream);
+            Library.loadPropertiesInPropertyHolder(envProperties);
+        } catch (IOException e) {
+            Assert.assertTrue("Error on reading environment config file" + e.getMessage(), false);
+        }
+    }
 
 }
