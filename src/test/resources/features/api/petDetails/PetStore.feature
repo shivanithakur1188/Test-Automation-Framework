@@ -29,7 +29,7 @@ Feature: Demo Pet Store
     Given I have the endpoint as "PET"
     When I send the "put" request to "update status of pet as sold" using request body as "UpdatePet" using
       | description      | key    | value |
-      | key to be update | id     | ID    |
+      | key to be update | id     | ID  |
       | key to be update | status | sold  |
     Then I should see the response status code as "200"
     And I have the endpoint as "PET_BY_ID"

@@ -190,8 +190,9 @@ public class Utility {
 		case "get": 
 			return requestSpec.log().all().relaxedHTTPSValidation().get(getProperty(Constants.URL));
 		case "post":
-			return requestSpec.log().all().relaxedHTTPSValidation()
-					.body(getProperty(Constants.REQUEST_JSON)).post(getProperty(Constants.URL));
+			return requestSpec
+			    .relaxedHTTPSValidation()
+				.body(getProperty(Constants.REQUEST_JSON)).log().all().post(getProperty(Constants.URL));
 		case "put":
 			return requestSpec.log().all().relaxedHTTPSValidation()
 					.body(getProperty(Constants.REQUEST_JSON)).put(getProperty(Constants.URL));
@@ -233,7 +234,7 @@ public class Utility {
 	 */
 	public static Response buildRequest(String methodType) {
 		setProperty(Constants.METHOD_TYPE, methodType);
-		return doRequest(SerenityRest.given().contentType("application/json").config(RestAssured.config()
+		return doRequest(SerenityRest.given().config(RestAssured.config()
 				.encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false))));
 	}
 }
