@@ -9,6 +9,7 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import com.taf.base.Base;
 import com.taf.api.utilities.Constants;
 import com.taf.api.utilities.ResponseUtils;
@@ -19,7 +20,8 @@ public class CommonStepDef {
 	@Given("^I have the endpoint as \"([^\"]*)\"$")
 	public void i_have_the_endpoint_as_something(String endpoint) throws Throwable {
 		setProperty(Constants.URL,
-				Utility.createEndPoint(Base.properties.get(Constants.API_BASE_URL).toString(), getProperty(endpoint)));
+				Utility.createEndPoint(Base.envProperties.get(Constants.API_BASE_URL).toString(), getProperty(endpoint)));
+		Base.LOGGER.info("Created endpoint is:"+getProperty(Constants.URL));
 	}
 
 	@When("^I send the \"([^\"]*)\" request to \"([^\"]*)\"$")
@@ -41,6 +43,7 @@ public class CommonStepDef {
 			String desc, String jsonBody, DataTable table) throws Throwable {
 		setProperty(Constants.REQUEST_JSON, Utility.updateRequestBody(table, Utility.readJson(jsonBody)));
 		response = Utility.buildRequest(methodType);
+		
 	}
 
 	@Then("^I should see the response status code as \"([^\"]*)\"$")
@@ -82,4 +85,14 @@ public class CommonStepDef {
 							: getProperty(table.asLists().get(i).get(2)));
 		}
 	}
+	
+	@Then("^I should verify printing of logs$")
+	public void i_should_sollowing_parameters_in_response_as() {
+		System.out.println("SYSOUt logs");
+		Base.LOGGER.info("Logs printed successfully");
+		
+		
+		}
+	
+	
 }

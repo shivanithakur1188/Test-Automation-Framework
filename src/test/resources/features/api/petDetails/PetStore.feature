@@ -1,7 +1,6 @@
-@petStore
+@petStore  @api
 Feature: Demo Pet Store
 
-  @api
   Scenario: Get available pets
     Given I have the endpoint as "PETS_BY_STATUS"
     When I send the "get" request to "check available pets"
@@ -55,3 +54,4 @@ Feature: Demo Pet Store
     And I should see the following parameters in response as
       | parameter  | jsonpath | expectedValue |
       | pet status | message  | Pet not found |
+     Then I should verify printing of logs 

@@ -14,8 +14,6 @@
         <junit-platform-suite.version>1.10.2</junit-platform-suite.version>
         <cucumber-junit-platform-engine.version>7.16.1</cucumber-junit-platform-engine.version>
         <encoding>UTF-8</encoding>
-        <tags></tags>
-        <webdriver.base.url></webdriver.base.url>
     </properties>
     <dependencies>
         <dependency>
@@ -93,7 +91,6 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.23.1</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
 			<groupId>org.json</groupId>
@@ -101,15 +98,11 @@
 			<version>20240205</version>
 		</dependency>
 		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<version>3.13.2</version>
-		</dependency>
-		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<version>2.9.0</version>
 		</dependency>
+		
     </dependencies>
 	<build>
 		<plugins>
@@ -129,9 +122,9 @@
 						<include>Runner.java</include>
 					</includes>
 					<parallel>methods</parallel>
-					<threadCount>2</threadCount>
+					<threadCount>1</threadCount>
 					<perCoreThreadCount>false</perCoreThreadCount>
-					<forkCount>2</forkCount>
+					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
 					<argLine>-Xmx512m</argLine>
 				</configuration>

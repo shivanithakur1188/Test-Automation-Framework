@@ -36,7 +36,7 @@ public class Utility {
 	public static String readJson(String jsonName) {
 		String jsonString = null;
 		try {
-			URL file = Resources.getResource("configFiles/jsonFiles/RequestJson/" + jsonName + ".json");
+			URL file = Resources.getResource("config/json/RequestJson/" + jsonName + ".json");
 			jsonString = Resources.toString(file, Charsets.UTF_8);
 
 		} catch (Exception e) {
@@ -187,18 +187,18 @@ public class Utility {
 	public static Response doRequest(RequestSpecification requestSpec) {
 		ResponseUtils.request = requestSpec;
 		switch (getProperty(Constants.METHOD_TYPE).toLowerCase()) {
-		case "get":
-			return requestSpec.log().ifValidationFails().relaxedHTTPSValidation().get(getProperty(Constants.URL));
+		case "get": 
+			return requestSpec.log().all().relaxedHTTPSValidation().get(getProperty(Constants.URL));
 		case "post":
-			return requestSpec.log().ifValidationFails().relaxedHTTPSValidation()
+			return requestSpec.log().all().relaxedHTTPSValidation()
 					.body(getProperty(Constants.REQUEST_JSON)).post(getProperty(Constants.URL));
 		case "put":
-			return requestSpec.log().ifValidationFails().relaxedHTTPSValidation()
+			return requestSpec.log().all().relaxedHTTPSValidation()
 					.body(getProperty(Constants.REQUEST_JSON)).put(getProperty(Constants.URL));
 		case "delete":
-			return requestSpec.log().ifValidationFails().relaxedHTTPSValidation().delete(getProperty(Constants.URL));
+			return requestSpec.log().all().relaxedHTTPSValidation().delete(getProperty(Constants.URL));
 		case "patch":
-			return requestSpec.log().ifValidationFails().relaxedHTTPSValidation().patch(getProperty(Constants.URL));
+			return requestSpec.log().all().relaxedHTTPSValidation().patch(getProperty(Constants.URL));
 		default:
 			Assert.assertTrue("Invalid method type passed: " + getProperty(Constants.METHOD_TYPE), false);
 			return null;
