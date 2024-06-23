@@ -227,4 +227,12 @@ public class Utility {
             .urlEncodingEnabled(false).config(RestAssured.config()
                 .encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false))));
     }
+
+    public static Response buildRequest(String methodType) {
+        setProperty(Constants.METHOD_TYPE, methodType);
+        return doRequest(SerenityRest.given()
+            .contentType("application/json")
+            .urlEncodingEnabled(false).config(RestAssured.config()
+                .encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false))));
+    }
 }
